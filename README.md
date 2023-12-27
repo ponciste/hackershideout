@@ -103,7 +103,7 @@ The screenshot above indicates that the attacker successfully found the correct 
 
 ---
 
-In order ot answer the last question (#13), we just need to google `fail2ban`.
+To answer the last question (#13), a quick search for "fail2ban" on Google should provide the necessary information.
 
 #### Result 
 
