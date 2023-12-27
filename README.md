@@ -97,7 +97,7 @@ Similarly, we can verify whether there are any SSH login requests other than tho
 
 #### Result
 
-![Attacker Login](images/failed_logins_count.png?raw=true "Attacker Login")
+![Attacker Login](images/attacker_login.png?raw=true "Attacker Login")
 
 The screenshot above indicates that the attacker successfully found the correct password through brute-forcing SSH.
 
