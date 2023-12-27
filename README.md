@@ -24,9 +24,9 @@ Based on this information, it becomes evident that, for this part of the analysi
 
 ---
 
-Next, we need to dig deeper into the LFI **possible damage**. Let's apply some filters to assess the impact of the LFI attack.
+To further explore the **potential damage caused by the LFI** (Local File Inclusion) vulnerability, we will apply specific filters to assess the impact of the LFI attack.
 
-Let's apply the following search filter:
+Let's proceed by implementing the following search filter:
 
 ```sql
 "GET" AND "200" AND "Fuzz Faster U Fool"
@@ -34,11 +34,12 @@ Let's apply the following search filter:
 
 #### Result
 
-We get **97** events (or log entries), which means, the hacker was successfully able to access the content of **97 files on the server**.
+
+We have identified **97** events (or log entries), indicating that the hacker successfully accessed the content of **97 files on the server**.
 
 ![GET 200 response filter](images/200_response_filter.png?raw=true "GET 200 response filter")
 
-If we want to double-check it, we can easily try ourselves by copying and pasting the URL in the browser. 
+To verify this, we can independently confirm by copying and pasting the URL into a web browser.
 
 #### Example
 
@@ -57,9 +58,9 @@ If we want to double-check it, we can easily try ourselves by copying and pastin
 
 ### Second Attack
 
-In the challenge, a second attack is mentioned. Therefore, let's use the information we have retrieved so far to exclude the first attack.
+In the challenge, a **second attack** is mentioned. Therefore, let's utilize the information we have gathered to exclude the first attack.
 
-To do this, we will include the attacker's IP address and exclude the LFI attack:
+To accomplish this, we will include the attacker's IP address and exclude the LFI attack:
 
 ```sql
 "192.168.178.83" AND NOT "Fuzz"
@@ -67,17 +68,18 @@ To do this, we will include the attacker's IP address and exclude the LFI attack
 
 #### Result
 
-It seems that, after the LFI attack, the attacker tried to **brute-force** again. This time however, the target was SSH.
+It appears that following the LFI attack, the attacker attempted another assault, this time focusing on **brute-forcing** the SSH credentials.
 
-Some of the information that stand out are:
-1. Many requests each second.
-2. Multiple "Failed login for ironhack from 192.168.178.83", which is the attacker's IP address.
-3. The ssh2 service.
+Key observations include:
+
+1. A high volume of requests occurring each second.
+2. Numerous instances of "Failed login for ironhack from 192.168.178.83," where the IP address 192.168.178.83 corresponds to the attacker.
+3. The utilization of the ssh2 service in the attack.
 
 ![Second attack logs](images/second_attack_logs.png?raw=true "Second attack logs")
 
 
-Now, we need to focus on these SSH logs. Let's check how many times the attacker tried and failed to log in.
+Now, our focus shifts to the SSH logs. Let's examine the frequency of the attacker's unsuccessful login attempts.
 
 ```sql
 "Failed password for ironhack from 192.168.178.83" AND NOT "repeated"
@@ -87,8 +89,7 @@ Now, we need to focus on these SSH logs. Let's check how many times the attacker
 
 ![Failed logins count](images/failed_logins_count.png?raw=true "Failed logins count")
 
-
-Similarly, we can also verify whether or not the are different SSH login requests different than failed:
+Similarly, we can verify whether there are any SSH login requests other than those that resulted in a failed attempt.
 
 ```sql
 "from 192.168.178.83" AND NOT "Failed"
@@ -98,8 +99,7 @@ Similarly, we can also verify whether or not the are different SSH login request
 
 ![Attacker Login](images/failed_logins_count.png?raw=true "Attacker Login")
 
-The screenshot above indicated that the attacker **was able to find the correct password by brute-forcing SSH**.
-
+The screenshot above indicates that the attacker successfully found the correct password through brute-forcing SSH.
 
 ### Questions and Answers
 
