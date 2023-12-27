@@ -10,6 +10,8 @@ Perform a standard search by typing `*` in the search bar and selecting `All tim
 
 ![Standard Search](images/all_logs_standard_search.png?raw=true "Standard Search")
 
+![Logs page 50](images/oldest_logs.png?raw=true "Logs Page 50")
+
 From the logs below, we can deduce several key pieces of information about what transpired:
 
 1. The date and time of the logs are consistent across multiple entries, indicating a **brute-force attack**.
@@ -17,8 +19,6 @@ From the logs below, we can deduce several key pieces of information about what 
 3. The URLs suggest that someone attempted a brute-force attack to **load a local path through a GET parameter**.
 4. The name of a well-known brute-forcing tool; **Fuzz Faster U Fool v2.0.0-dev**.
 5. The attacker's IP address.
-
-![Logs page 50](images/oldest_logs.png?raw=true "Logs Page 50")
 
 Based on this information, it becomes evident that, for this part of the analysis, we are dealing with a **brute-forced LFI (Local File Inclusion) attack**.
 
@@ -101,6 +101,16 @@ Similarly, we can verify whether there are any SSH login requests other than tho
 
 The screenshot above indicates that the attacker successfully found the correct password through brute-forcing SSH.
 
+---
+
+In order ot answer the last question (#13), we just need to google `fail2ban`.
+
+#### Result 
+
+From a very quick search, we see that `fail2ban` is classified as an **Intrusion Prevention** software. Therefore, the correct answer is **Intrusion Prevention System**.
+
+![fail2ban description](images/fail2ban.png?raw=true "fail2ban description")
+
 ### Questions and Answers
 
 **Q:** What is the technique used for the first attack?\
@@ -127,7 +137,7 @@ The screenshot above indicates that the attacker successfully found the correct 
 **Q:** What is the username used by the attacker for the second attack?\
 **A:** ironhack. 
 
-**Q:** Where did the attacked find the username?\
+**Q:** In which file, previously exposed, did the attacked find the username?\
 **A:** /etc/passwd. 
 
 **Q:** How many failed attempts has the attacker performed?\
@@ -136,7 +146,7 @@ The screenshot above indicates that the attacker successfully found the correct 
 **Q:** Was the attacker able to successfully log in into the server? (y/n)\
 **A:** y. 
 
-**Q:** What is the sshd process ID of the log related to the successful attacker's log in?\
+**Q:** What is the process ID (PID) associated with the SSH session in relation to the question above?\
 **A:** 51362. 
 
 **Q:** What mechanism would you implement to block such attack?\
